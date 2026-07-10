@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>儿童阿斯伯格综合征筛查量表 (ASSS-C)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1b3a5c 0%, #2d6a8a 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1b3a5c 0%, #2d6a8a 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .description {
+            background: #eaf4f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-size: 0.95rem;
+            color: #1b3a5c;
+            border-left: 5px solid #2d6a8a;
+        }
+        
+        .respondent-info {
+            background: #f0f7fb;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .info-group label {
+            display: block;
+            font-weight: 600;
+            color: #1b3a5c;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .info-group input, .info-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #dce8f0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+        
+        .info-group input:focus, .info-group select:focus {
+            outline: none;
+            border-color: #2d6a8a;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            width: 0%;
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        .missing-panel {
+            background: #fff8e1;
+            border: 2px solid #ffb300;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px;
+            display: none;
+            animation: slideDown 0.5s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .missing-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .missing-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #e65100;
+            display: flex;
+            align-items: center;
+        }
+        
+        .missing-title i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .missing-count {
+            background: #e65100;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .missing-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+        }
+        
+        .missing-item {
+            background: #ff7043;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+        
+        .missing-item:hover {
+            background: #ff5722;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }
+        
+        .missing-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .missing-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .missing-btn-primary {
+            background: linear-gradient(135deg, #1b3a5c 0%, #2d6a8a 100%);
+            color: white;
+            flex: 2;
+        }
+        
+        .missing-btn-secondary {
+            background: #f5f5f5;
+            color: #333;
+            flex: 1;
+        }
+        
+        .missing-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .test-section {
+            padding: 25px;
+        }
+        
+        .question-item {
+            background: white;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+            border: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .question-item.unanswered {
+            border-color: #ff5252;
+            background: #fff5f5;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 82, 82, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 82, 82, 0); }
+        }
+        
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #1b3a5c;
+        }
+        
+        .question-dimension {
+            display: inline-block;
+            font-size: 0.75rem;
+            background: #dce8f0;
+            color: #1b3a5c;
+            padding: 2px 12px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .option {
+            flex: 1;
+            min-width: 100px;
+            text-align: center;
+            padding: 12px 5px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        .option.selected {
+            background: linear-gradient(135deg, #1b3a5c 0%, #2d6a8a 100%);
+            color: white;
+            border-color: #1b3a5c;
+            box-shadow: 0 5px 15px rgba(27, 58, 92, 0.2);
+        }
+        
+        .buttons {
+            text-align: center;
+            padding: 25px;
+            border-top: 1px solid #eee;
+        }
+        
+        .btn {
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #1b3a5c 0%, #2d6a8a 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(27, 58, 92, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(27, 58, 92, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .results-container {
+            padding: 30px;
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .results-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .results-header h2 {
+            font-size: 2rem;
+            color: #1b3a5c;
+            margin-bottom: 10px;
+        }
+        
+        .child-info-display {
+            background: #f0f7fb;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .child-info-item {
+            font-size: 0.95rem;
+            color: #1b3a5c;
+        }
+        
+        .child-info-item strong {
+            color: #2d6a8a;
+        }
+        
+        .score-display {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .score-circle {
+            display: inline-block;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1b3a5c 0%, #2d6a8a 100%);
+            color: white;
+            line-height: 120px;
+            font-size: 3rem;
+            font-weight: 800;
+            box-shadow: 0 10px 30px rgba(27, 58, 92, 0.3);
+        }
+        
+        .score-label {
+            margin-top: 15px;
+            font-size: 1.1rem;
+            color: #555;
+        }
+        
+        .result-category {
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            font-weight: 600;
+            text-align: center;
+            font-size: 1.3rem;
+        }
+        
+        .category-low {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .category-moderate {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        
+        .category-high {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .dimension-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .dimension-card {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 5px solid #2d6a8a;
+        }
+        
+        .dimension-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #1b3a5c;
+        }
+        
+        .dimension-score {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d6a8a;
+        }
+        
+        .dimension-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .dimension-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #1b3a5c, #2d6a8a);
+            transition: width 1s ease;
+        }
+        
+        .interpretation {
+            background: #eaf4f9;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border-left: 5px solid #1b3a5c;
+        }
+        
+        .interpretation h3 {
+            color: #1b3a5c;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .restart-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-top: 20px;
+            box-shadow: 0 5px 20px rgba(0, 176, 155, 0.3);
+        }
+        
+        .restart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 176, 155, 0.4);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .respondent-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .missing-list {
+                grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            }
+            
+            .missing-item {
+                width: 45px;
+                height: 45px;
+            }
+            
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .test-section {
+                padding: 15px;
+            }
+            
+            .question-item {
+                padding: 15px;
+            }
+            
+            .score-circle {
+                width: 100px;
+                height: 100px;
+                line-height: 100px;
+                font-size: 2.5rem;
+            }
+            
+            .options {
+                flex-direction: column;
+            }
+            
+            .option {
+                min-width: 100%;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>儿童阿斯伯格综合征筛查量表</h1>
+            <div class="subtitle">ASSS-C (5-12岁) · 家长/教师填写</div>
+            <div class="progress-container">
+                <div class="progress-info">
+                    <span>已完成：<span id="progress-count">0</span>/45题</span>
+                    <span id="progress-percent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="description">
+            <strong>量表说明：</strong>本量表用于筛查5-12岁儿童的阿斯伯格综合征相关特质，由熟悉儿童日常表现的家长或教师填写。请根据儿童最近3-6个月的实际表现，选择最符合的选项。结果仅供参考，不能替代专业诊断。
+        </div>
+        
+        <!-- 填写人信息 -->
+        <div style="padding: 0 25px;">
+            <div class="respondent-info">
+                <div class="info-group">
+                    <label for="child-name">儿童姓名 *</label>
+                    <input type="text" id="child-name" placeholder="请输入儿童姓名">
+                </div>
+                <div class="info-group">
+                    <label for="child-age">儿童年龄 *</label>
+                    <input type="number" id="child-age" placeholder="请输入年龄（岁）" min="5" max="12">
+                </div>
+                <div class="info-group">
+                    <label for="child-gender">儿童性别 *</label>
+                    <select id="child-gender">
+                        <option value="">请选择</option>
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </div>
+                <div class="info-group">
+                    <label for="respondent-role">填写人与儿童关系 *</label>
+                    <select id="respondent-role">
+                        <option value="">请选择</option>
+                        <option value="父亲">父亲</option>
+                        <option value="母亲">母亲</option>
+                        <option value="教师">教师</option>
+                        <option value="祖父母">祖父母</option>
+                        <option value="其他">其他</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 漏题导航面板 -->
+        <div class="missing-panel" id="missing-panel">
+            <div class="missing-header">
+                <div class="missing-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    发现未答题
+                </div>
+                <div class="missing-count" id="missing-count">0</div>
+            </div>
+            <p style="margin-bottom: 15px; color: #666;">以下题目尚未回答，请点击题号跳转到相应题目：</p>
+            <div class="missing-list" id="missing-list">
+                <!-- 漏题列表将动态生成 -->
+            </div>
+            <div class="missing-actions">
+                <button class="missing-btn missing-btn-primary" id="jump-first-btn">
+                    <i class="fas fa-arrow-right"></i> 跳转到第一题
+                </button>
+                <button class="missing-btn missing-btn-secondary" id="close-panel-btn">
+                    <i class="fas fa-times"></i> 稍后处理
+                </button>
+            </div>
+        </div>
+        
+        <div class="test-section" id="test-section">
+            <!-- 问题将在这里动态生成 -->
+        </div>
+        
+        <div class="buttons">
+            <button class="btn" id="submit-btn" disabled>
+                <i class="fas fa-chart-bar"></i> 查看测试结果
+            </button>
+        </div>
+        
+        <div class="results-container" id="results-container">
+            <div class="results-header">
+                <h2>儿童阿斯伯格特质筛查结果</h2>
+                <p>基于您的填写，以下是该儿童的阿斯伯格特质分析：</p>
+            </div>
+            
+            <div class="child-info-display" id="child-info-display">
+                <!-- 儿童信息将在这里显示 -->
+            </div>
+            
+            <div class="score-display">
+                <div class="score-circle" id="total-score">0</div>
+                <div class="score-label">总分（范围45-225）</div>
+            </div>
+            
+            <div id="result-category" class="result-category category-low">
+                评估结果分类
+            </div>
+            
+            <div class="dimension-grid" id="dimension-grid">
+                <!-- 维度分数将在这里动态生成 -->
+            </div>
+            
+            <div class="interpretation">
+                <h3>结果解读与建议</h3>
+                <div id="interpretation-content">
+                    <!-- 解读内容将在这里动态生成 -->
+                </div>
+            </div>
+            
+            <button class="restart-btn" id="restart-btn">
+                <i class="fas fa-redo"></i> 重新开始评估
+            </button>
+        </div>
+    </div>
+    
+    <footer>
+        ASSS-C筛查结果仅供参考，如有疑虑请咨询儿童心理科或发育行为儿科医生
+    </footer>
+
+    <script>
+        // 儿童阿斯伯格综合征筛查量表 (ASSS-C) 
+        // 5个维度，每个维度9题，共45题
+        // 评分：1-5分（从"从不"到"总是"）
+        const assQuestions = [
+            // ===== 维度1: 社交互动障碍 (S) =====
+            { id: 1, text: "这个孩子回避眼神接触，与人交流时很少看对方眼睛。", dimension: "社交互动", reverse: true },
+            { id: 2, text: "这个孩子更喜欢独自玩耍，不太主动寻求同伴互动。", dimension: "社交互动", reverse: true },
+            { id: 3, text: "这个孩子难以理解他人的感受和情绪，显得缺乏共情。", dimension: "社交互动", reverse: true },
+            { id: 4, text: "这个孩子在社交场合中显得笨拙或不自在。", dimension: "社交互动", reverse: true },
+            { id: 5, text: "这个孩子难以结交朋友或维持友谊。", dimension: "社交互动", reverse: true },
+            { id: 6, text: "这个孩子不太会分享自己的兴趣和快乐给他人。", dimension: "社交互动", reverse: true },
+            { id: 7, text: "这个孩子对他人发出的社交信号反应迟钝。", dimension: "社交互动", reverse: true },
+            { id: 8, text: "这个孩子不善于理解社交规则和潜规则。", dimension: "社交互动", reverse: true },
+            { id: 9, text: "这个孩子与他人互动时显得僵硬或不合时宜。", dimension: "社交互动", reverse: true },
+            
+            // ===== 维度2: 沟通障碍 (C) =====
+            { id: 10, text: "这个孩子的语言发展比其他同龄孩子晚。", dimension: "沟通", reverse: true },
+            { id: 11, text: "这个孩子说话时语调奇怪或缺乏节奏感。", dimension: "沟通", reverse: true },
+            { id: 12, text: "这个孩子使用重复性语言或刻板语言。", dimension: "沟通", reverse: true },
+            { id: 13, text: "这个孩子难以维持对话，经常自说自话。", dimension: "沟通", reverse: true },
+            { id: 14, text: "这个孩子不理解比喻、幽默或双关语。", dimension: "沟通", reverse: true },
+            { id: 15, text: "这个孩子说话过于正式或书卷气。", dimension: "沟通", reverse: true },
+            { id: 16, text: "这个孩子难以表达自己的需求和感受。", dimension: "沟通", reverse: true },
+            { id: 17, text: "这个孩子经常打断别人或不等别人说完。", dimension: "沟通", reverse: true },
+            { id: 18, text: "这个孩子对别人的提问回答过于简短或答非所问。", dimension: "沟通", reverse: true },
+            
+            // ===== 维度3: 刻板行为与兴趣 (R) =====
+            { id: 19, text: "这个孩子有非常狭窄和强烈的兴趣，占据大部分时间。", dimension: "刻板行为与兴趣", reverse: true },
+            { id: 20, text: "这个孩子坚持固定的日常程序，对改变非常抗拒。", dimension: "刻板行为与兴趣", reverse: true },
+            { id: 21, text: "这个孩子会反复做某些动作或说某些话。", dimension: "刻板行为与兴趣", reverse: true },
+            { id: 22, text: "这个孩子对特定物品或话题有过度专注。", dimension: "刻板行为与兴趣", reverse: true },
+            { id: 23, text: "这个孩子喜欢收集或排列物品，有固定模式。", dimension: "刻板行为与兴趣", reverse: true },
+            { id: 24, text: "这个孩子对细节非常关注，容易忽略整体。", dimension: "刻板行为与兴趣", reverse: true },
+            { id: 25, text: "这个孩子固执己见，很难接受不同观点。", dimension: "刻板行为与兴趣", reverse: true },
+            { id: 26, text: "这个孩子对环境变化表现出强烈的焦虑或不安。", dimension: "刻板行为与兴趣", reverse: true },
+            { id: 27, text: "这个孩子经常沉浸在自己的世界中，难以被拉回现实。", dimension: "刻板行为与兴趣", reverse: true },
+            
+            // ===== 维度4: 感觉异常 (P) =====
+            { id: 28, text: "这个孩子对某些声音、光线或气味特别敏感。", dimension: "感觉异常", reverse: true },
+            { id: 29, text: "这个孩子对触摸或被触碰表现出过度反应。", dimension: "感觉异常", reverse: true },
+            { id: 30, text: "这个孩子对疼痛或温度的感知异于常人（过高或过低）。", dimension: "感觉异常", reverse: true },
+            { id: 31, text: "这个孩子喜欢旋转、摇晃或跳跃来寻求感官刺激。", dimension: "感觉异常", reverse: true },
+            { id: 32, text: "这个孩子对衣服的材质、标签等有强烈的偏好或排斥。", dimension: "感觉异常", reverse: true },
+            { id: 33, text: "这个孩子在嘈杂的环境中容易焦躁或崩溃。", dimension: "感觉异常", reverse: true },
+            { id: 34, text: "这个孩子对食物的质地、颜色或味道非常挑剔。", dimension: "感觉异常", reverse: true },
+            { id: 35, text: "这个孩子会长时间注视旋转的物体或光影。", dimension: "感觉异常", reverse: true },
+            { id: 36, text: "这个孩子对某些气味有异常的喜欢或厌恶。", dimension: "感觉异常", reverse: true },
+            
+            // ===== 维度5: 运动协调 (M) =====
+            { id: 37, text: "这个孩子的动作显得笨拙或不协调。", dimension: "运动协调", reverse: true },
+            { id: 38, text: "这个孩子跑步、跳跃或攀爬能力比同龄孩子差。", dimension: "运动协调", reverse: true },
+            { id: 39, text: "这个孩子的精细动作（如握笔、扣扣子）较差。", dimension: "运动协调", reverse: true },
+            { id: 40, text: "这个孩子走路姿态异常，如踮脚走路。", dimension: "运动协调", reverse: true },
+            { id: 41, text: "这个孩子模仿动作的能力较弱。", dimension: "运动协调", reverse: true },
+            { id: 42, text: "这个孩子常撞到东西或摔倒。", dimension: "运动协调", reverse: true },
+            { id: 43, text: "这个孩子的手指灵活性和手眼协调能力较差。", dimension: "运动协调", reverse: true },
+            { id: 44, text: "这个孩子对体育活动不感兴趣或参与困难。", dimension: "运动协调", reverse: true },
+            { id: 45, text: "这个孩子有重复性的刻板动作（如晃动、转圈）。", dimension: "运动协调", reverse: true }
+        ];
+        
+        // 维度名称映射
+        const dimensionNames = {
+            "社交互动": "社交互动障碍",
+            "沟通": "沟通障碍",
+            "刻板行为与兴趣": "刻板行为与兴趣",
+            "感觉异常": "感觉异常",
+            "运动协调": "运动协调困难"
+        };
+        
+        // 维度描述
+        const dimensionDescriptions = {
+            "社交互动": "反映儿童在社交互动中的困难程度，包括眼神回避、缺乏共情、难以交友等。",
+            "沟通": "反映儿童的语言发展、沟通能力及理解他人言语的能力。",
+            "刻板行为与兴趣": "反映儿童的兴趣范围、行为灵活性和对改变的适应性。",
+            "感觉异常": "反映儿童对各类感官刺激的异常反应模式。",
+            "运动协调": "反映儿童的大动作和精细动作协调能力。"
+        };
+        
+        // 用户答案存储
+        let userAnswers = new Array(assQuestions.length).fill(null);
+        let unansweredQuestions = [];
+        
+        // 初始化页面
+        function initPage() {
+            const container = document.getElementById('test-section');
+            
+            // 生成所有题目
+            assQuestions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-item';
+                questionDiv.id = `question-${index}`;
+                questionDiv.dataset.questionIndex = index;
+                
+                // 显示维度标签
+                const dimLabel = dimensionNames[question.dimension] || question.dimension;
+                
+                questionDiv.innerHTML = `
+                    <span class="question-dimension">${dimLabel}</span>
+                    <div class="question-text">${question.id}. ${question.text}</div>
+                    <div class="options">
+                        <div class="option" data-value="1">从不</div>
+                        <div class="option" data-value="2">偶尔</div>
+                        <div class="option" data-value="3">有时</div>
+                        <div class="option" data-value="4">经常</div>
+                        <div class="option" data-value="5">总是</div>
+                    </div>
+                `;
+                
+                // 添加点击事件
+                const options = questionDiv.querySelectorAll('.option');
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        const questionIndex = parseInt(this.closest('.question-item').dataset.questionIndex);
+                        
+                        // 移除同题其他选项的选中状态
+                        const questionOptions = this.parentNode.querySelectorAll('.option');
+                        questionOptions.forEach(opt => opt.classList.remove('selected'));
+                        
+                        // 选中当前选项
+                        this.classList.add('selected');
+                        
+                        // 保存答案
+                        const selectedValue = parseInt(this.dataset.value);
+                        userAnswers[questionIndex] = selectedValue;
+                        
+                        // 移除未答样式
+                        const questionElement = document.getElementById(`question-${questionIndex}`);
+                        questionElement.classList.remove('unanswered');
+                        
+                        // 更新进度
+                        updateProgress();
+                    });
+                });
+                
+                container.appendChild(questionDiv);
+            });
+            
+            // 按钮事件
+            document.getElementById('submit-btn').addEventListener('click', submitTest);
+            document.getElementById('restart-btn').addEventListener('click', restartTest);
+            document.getElementById('jump-first-btn').addEventListener('click', jumpToFirstUnanswered);
+            document.getElementById('close-panel-btn').addEventListener('click', closeMissingPanel);
+            
+            // 初始更新进度
+            updateProgress();
+        }
+        
+        // 更新漏题列表
+        function updateMissingQuestions() {
+            unansweredQuestions = [];
+            
+            userAnswers.forEach((answer, index) => {
+                if (answer === null) {
+                    unansweredQuestions.push(index);
+                }
+            });
+            
+            updateMissingPanel();
+        }
+        
+        // 更新漏题面板
+        function updateMissingPanel() {
+            const missingList = document.getElementById('missing-list');
+            const missingCount = document.getElementById('missing-count');
+            
+            missingList.innerHTML = '';
+            missingCount.textContent = unansweredQuestions.length;
+            
+            if (unansweredQuestions.length === 0) {
+                document.getElementById('missing-panel').style.display = 'none';
+                return;
+            }
+            
+            unansweredQuestions.forEach((questionIndex) => {
+                const questionNumber = questionIndex + 1;
+                const item = document.createElement('div');
+                item.className = 'missing-item';
+                item.textContent = questionNumber;
+                item.title = `跳转到第${questionNumber}题`;
+                item.addEventListener('click', () => {
+                    scrollToQuestion(questionIndex);
+                });
+                missingList.appendChild(item);
+            });
+            
+            document.getElementById('missing-panel').style.display = 'block';
+        }
+        
+        // 跳转到第一道未答题目
+        function jumpToFirstUnanswered() {
+            if (unansweredQuestions.length > 0) {
+                scrollToQuestion(unansweredQuestions[0]);
+            }
+        }
+        
+        // 关闭漏题面板
+        function closeMissingPanel() {
+            document.getElementById('missing-panel').style.display = 'none';
+        }
+        
+        // 滚动到指定题目
+        function scrollToQuestion(index) {
+            const questionElement = document.getElementById(`question-${index}`);
+            if (questionElement) {
+                document.querySelectorAll('.question-item').forEach(item => {
+                    if (parseInt(item.id.split('-')[1]) !== index) {
+                        item.classList.remove('unanswered');
+                    }
+                });
+                
+                if (userAnswers[index] === null) {
+                    questionElement.classList.add('unanswered');
+                }
+                
+                questionElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                questionElement.style.boxShadow = '0 0 0 3px rgba(45, 106, 138, 0.3)';
+                setTimeout(() => {
+                    questionElement.style.boxShadow = '';
+                }, 2000);
+            }
+        }
+        
+        // 更新进度
+        function updateProgress() {
+            const answeredCount = userAnswers.filter(a => a !== null).length;
+            const totalCount = assQuestions.length;
+            const progressPercent = (answeredCount / totalCount) * 100;
+            
+            document.getElementById('progress-count').textContent = answeredCount;
+            document.getElementById('progress-percent').textContent = `${Math.round(progressPercent)}%`;
+            document.getElementById('progress-fill').style.width = `${progressPercent}%`;
+            
+            document.getElementById('submit-btn').disabled = answeredCount < totalCount;
+            
+            const submitBtn = document.getElementById('submit-btn');
+            if (answeredCount < totalCount) {
+                submitBtn.innerHTML = `<i class="fas fa-chart-bar"></i> 还需回答 ${totalCount - answeredCount} 题`;
+            } else {
+                submitBtn.innerHTML = '<i class="fas fa-chart-bar"></i> 查看测试结果';
+            }
+            
+            updateMissingQuestions();
+        }
+        
+        // 验证儿童信息
+        function validateChildInfo() {
+            const childName = document.getElementById('child-name').value.trim();
+            const childAge = document.getElementById('child-age').value.trim();
+            const childGender = document.getElementById('child-gender').value;
+            const respondentRole = document.getElementById('respondent-role').value;
+            
+            if (!childName) {
+                alert('请输入儿童姓名');
+                document.getElementById('child-name').focus();
+                return false;
+            }
+            
+            if (!childAge || parseInt(childAge) < 5 || parseInt(childAge) > 12) {
+                alert('请输入正确的儿童年龄（5-12岁）');
+                document.getElementById('child-age').focus();
+                return false;
+            }
+            
+            if (!childGender) {
+                alert('请选择儿童性别');
+                document.getElementById('child-gender').focus();
+                return false;
+            }
+            
+            if (!respondentRole) {
+                alert('请选择填写人与儿童的关系');
+                document.getElementById('respondent-role').focus();
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // 提交测试
+        function submitTest() {
+            // 验证儿童信息
+            if (!validateChildInfo()) {
+                return;
+            }
+            
+            updateMissingQuestions();
+            
+            if (unansweredQuestions.length > 0) {
+                document.getElementById('missing-panel').style.display = 'block';
+                unansweredQuestions.forEach(index => {
+                    document.getElementById(`question-${index}`).classList.add('unanswered');
+                });
+                document.getElementById('missing-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                return;
+            }
+            
+            // 计算分数
+            const scores = calculateScores();
+            
+            // 获取儿童信息
+            const childName = document.getElementById('child-name').value.trim();
+            const childAge = document.getElementById('child-age').value.trim();
+            const childGender = document.getElementById('child-gender').value;
+            const respondentRole = document.getElementById('respondent-role').value;
+            
+            // 显示结果
+            showResults(scores, { childName, childAge, childGender, respondentRole });
+        }
+        
+        // 计算分数
+        function calculateScores() {
+            const dimensionScores = {
+                "社交互动": { total: 0, count: 0, max: 0 },
+                "沟通": { total: 0, count: 0, max: 0 },
+                "刻板行为与兴趣": { total: 0, count: 0, max: 0 },
+                "感觉异常": { total: 0, count: 0, max: 0 },
+                "运动协调": { total: 0, count: 0, max: 0 }
+            };
+            
+            assQuestions.forEach((question, index) => {
+                const answer = userAnswers[index];
+                const dim = question.dimension;
+                dimensionScores[dim].total += answer;
+                dimensionScores[dim].count += 1;
+                dimensionScores[dim].max += 5;
+            });
+            
+            const dimensionResults = {};
+            let totalScore = 0;
+            
+            Object.keys(dimensionScores).forEach(dim => {
+                const data = dimensionScores[dim];
+                const avg = data.total / data.count;
+                const percent = (data.total / data.max) * 100;
+                dimensionResults[dim] = {
+                    total: data.total,
+                    max: data.max,
+                    average: avg,
+                    percent: percent
+                };
+                totalScore += data.total;
+            });
+            
+            return {
+                totalScore: totalScore,
+                dimensions: dimensionResults
+            };
+        }
+        
+        // 显示结果
+        function showResults(scores, childInfo) {
+            // 显示儿童信息
+            const infoDisplay = document.getElementById('child-info-display');
+            infoDisplay.innerHTML = `
+                <span class="child-info-item"><strong>姓名：</strong>${childInfo.childName}</span>
+                <span class="child-info-item"><strong>年龄：</strong>${childInfo.childAge}岁</span>
+                <span class="child-info-item"><strong>性别：</strong>${childInfo.childGender}</span>
+                <span class="child-info-item"><strong>填写人：</strong>${childInfo.respondentRole}</span>
+            `;
+            
+            // 显示总分
+            document.getElementById('total-score').textContent = scores.totalScore;
+            
+            // 分类
+            const total = scores.totalScore;
+            let category = "";
+            let categoryClass = "";
+            let interpretationText = "";
+            
+            if (total <= 90) {
+                category = "低阿斯伯格特质倾向";
+                categoryClass = "category-low";
+                interpretationText = "该儿童在量表上的得分较低，表明较少表现出阿斯伯格综合征相关特质。社交互动、沟通和适应能力均在典型发展范围内。";
+            } else if (total <= 135) {
+                category = "中等阿斯伯格特质倾向";
+                categoryClass = "category-moderate";
+                interpretationText = "该儿童在量表上的得分处于中等水平，表现出一些阿斯伯格综合征相关特质。在某些社交或沟通方面可能存在轻微挑战，但总体适应能力尚可。建议持续观察并关注特定领域的支持需求。";
+            } else {
+                category = "高阿斯伯格特质倾向";
+                categoryClass = "category-high";
+                interpretationText = "该儿童在量表上的得分较高，表现出较多阿斯伯格综合征相关特质。建议尽快咨询儿童心理科、发育行为儿科或精神科医生进行专业评估，以明确诊断并制定干预计划。早期干预对儿童发展至关重要。";
+            }
+            
+            const categoryDiv = document.getElementById('result-category');
+            categoryDiv.textContent = category;
+            categoryDiv.className = `result-category ${categoryClass}`;
+            
+            // 显示维度分数
+            const dimensionGrid = document.getElementById('dimension-grid');
+            dimensionGrid.innerHTML = '';
+            
+            Object.keys(scores.dimensions).forEach(dim => {
+                const data = scores.dimensions[dim];
+                const percent = data.percent.toFixed(1);
+                const dimName = dimensionNames[dim] || dim;
+                
+                const card = document.createElement('div');
+                card.className = 'dimension-card';
+                card.innerHTML = `
+                    <div class="dimension-title">${dimName}</div>
+                    <div class="dimension-score">${data.average.toFixed(1)}</div>
+                    <div style="font-size: 0.9rem; color: #666;">平均得分（范围1-5）</div>
+                    <div class="dimension-bar">
+                        <div class="dimension-fill" style="width: ${percent}%;"></div>
+                    </div>
+                    <div style="font-size: 0.85rem; color: #2d6a8a;">${percent}%</div>
+                    <div style="font-size: 0.8rem; color: #888; margin-top: 5px;">
+                        总分: ${data.total}/${data.max}
+                    </div>
+                `;
+                dimensionGrid.appendChild(card);
+            });
+            
+            // 显示解读
+            const interpretationContainer = document.getElementById('interpretation-content');
+            
+            // 找出得分最高的两个维度（需要关注的方面）
+            const sortedDims = Object.keys(scores.dimensions).sort((a, b) => scores.dimensions[b].average - scores.dimensions[a].average);
+            const highDim = sortedDims.slice(0, 2);
+            const lowDim = sortedDims.slice(-2).reverse();
+            
+            const highDimNames = highDim.map(d => dimensionNames[d] || d);
+            const lowDimNames = lowDim.map(d => dimensionNames[d] || d);
+            
+            let detailsHTML = `
+                <p><strong>${interpretationText}</strong></p>
+                <p style="margin-top: 15px;"><strong>相对需要关注的方面：</strong> ${highDimNames.join('、')}。这些维度的得分相对较高，可能需要更多关注和支持。</p>
+                <p><strong>相对适应较好的方面：</strong> ${lowDimNames.join('、')}。这些维度的得分相对较低，是该儿童的优势领域。</p>
+                <div style="margin-top: 20px; padding: 15px; background: #dce8f0; border-radius: 8px;">
+                    <h4 style="color: #1b3a5c; margin-bottom: 10px;">建议与支持：</h4>
+                    <ul style="padding-left: 20px;">
+                        <li>本量表结果仅为筛查参考，不能替代临床诊断。</li>
+                        <li>如果儿童在多个维度得分较高，建议尽早咨询专业医生。</li>
+                        <li>针对社交和沟通方面的困难，可以考虑社交技能训练。</li>
+                        <li>对于刻板行为和感觉异常，行为干预和感觉统合训练可能有帮助。</li>
+                        <li>每个儿童都有独特的优势，请关注并培养孩子的特长和兴趣。</li>
+                        <li>与学校教师保持沟通，为孩子创造包容和支持的学习环境。</li>
+                    </ul>
+                </div>
+                <div style="margin-top: 20px; padding: 15px; background: #fff3e0; border-radius: 8px;">
+                    <h4 style="color: #e65100; margin-bottom: 10px;">重要提示：</h4>
+                    <p>阿斯伯格综合征属于自闭症谱系障碍（ASD），早期识别和干预对儿童发展至关重要。如有疑虑，请尽快寻求专业评估。</p>
+                </div>
+            `;
+            
+            interpretationContainer.innerHTML = detailsHTML;
+            
+            // 显示结果区域
+            document.getElementById('test-section').style.display = 'none';
+            document.querySelector('.buttons').style.display = 'none';
+            document.querySelector('.description').style.display = 'none';
+            document.querySelector('.respondent-info').style.display = 'none';
+            document.getElementById('missing-panel').style.display = 'none';
+            document.getElementById('results-container').style.display = 'block';
+            
+            window.scrollTo(0, 0);
+        }
+        
+        // 重新开始测试
+        function restartTest() {
+            userAnswers = new Array(assQuestions.length).fill(null);
+            unansweredQuestions = [];
+            
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            document.querySelectorAll('.question-item').forEach(item => {
+                item.classList.remove('unanswered');
+            });
+            
+            document.getElementById('missing-panel').style.display = 'none';
+            document.getElementById('results-container').style.display = 'none';
+            
+            document.getElementById('test-section').style.display = 'block';
+            document.querySelector('.buttons').style.display = 'block';
+            document.querySelector('.description').style.display = 'block';
+            document.querySelector('.respondent-info').style.display = 'grid';
+            
+            updateProgress();
+            window.scrollTo(0, 0);
+        }
+        
+        document.addEventListener('DOMContentLoaded', initPage);
+    </script>
+</body>
+</html>
